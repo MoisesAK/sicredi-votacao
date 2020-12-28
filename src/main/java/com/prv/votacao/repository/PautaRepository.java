@@ -1,10 +1,6 @@
 package com.prv.votacao.repository;
 
 import com.prv.votacao.models.Pauta;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-public interface PautaRepository extends JpaRepository<Pauta, Long> {
-
-    Pauta findById(long id);
-
-}
+public interface PautaRepository extends ReactiveMongoRepository<Pauta, Long> {}
