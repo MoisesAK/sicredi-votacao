@@ -3,25 +3,25 @@ package com.prv.votacao.models;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Pauta {
+public class Agenda {
 
-    private String id;
+    private long id;
 
     private String titulo;
 
     private long tempo;
 
-    public Pauta(final String id, final String titulo, final long tempo) {
+    public Agenda(final long id, final String titulo, final long tempo) {
         this.id = id;
         this.titulo = titulo;
         this.tempo = tempo;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
