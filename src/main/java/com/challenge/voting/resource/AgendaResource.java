@@ -1,8 +1,7 @@
-package com.challenge.voting.resources;
+package com.challenge.voting.resource;
 
-import com.challenge.voting.models.Agenda;
+import com.challenge.voting.model.Agenda;
 import com.challenge.voting.service.AgendaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,9 +10,8 @@ import reactor.core.publisher.Mono;
 @RequestMapping("agendas")
 public class AgendaResource {
 
-    AgendaService service;
+    private final AgendaService service;
 
-    @Autowired
     public AgendaResource(AgendaService service) {
         this.service = service;
     }
@@ -32,5 +30,4 @@ public class AgendaResource {
     public Mono<Agenda> save(@RequestBody Agenda agenda){
         return service.save(agenda);
     }
-
 }

@@ -1,7 +1,7 @@
 package com.challenge.voting.service;
 
 import com.challenge.voting.repository.SessionRepository;
-import com.challenge.voting.models.Session;
+import com.challenge.voting.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

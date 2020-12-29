@@ -1,10 +1,9 @@
-package com.challenge.voting.resources;
+package com.challenge.voting.resource;
 
-import com.challenge.voting.models.Agenda;
-import com.challenge.voting.models.Session;
+import com.challenge.voting.model.Agenda;
+import com.challenge.voting.model.Session;
 import com.challenge.voting.service.AgendaService;
 import com.challenge.voting.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -14,12 +13,10 @@ import reactor.core.publisher.Mono;
 @RestController
 public class SessionResource {
 
+    private final SessionService service;
 
-    SessionService service;
+    private final AgendaService agendaService;
 
-    AgendaService agendaService;
-
-    @Autowired
     public SessionResource(SessionService service, AgendaService agendaService) {
         this.service = service;
         this.agendaService = agendaService;
