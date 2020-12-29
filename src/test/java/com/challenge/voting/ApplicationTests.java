@@ -1,4 +1,4 @@
-package com.prv.votacao;
+package com.challenge.voting;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class VotacaoApplicationTests {
+class ApplicationTests {
 
     @Test
     public void contextLoads() {

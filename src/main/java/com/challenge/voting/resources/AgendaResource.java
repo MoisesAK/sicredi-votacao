@@ -1,21 +1,25 @@
-package com.prv.votacao.resources;
+package com.challenge.voting.resources;
 
-import com.prv.votacao.models.Agenda;
-import com.prv.votacao.models.Session;
-import com.prv.votacao.service.AgendaService;
+import com.challenge.voting.models.Agenda;
+import com.challenge.voting.service.AgendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController("pauta")
+@RestController
+@RequestMapping("agendas")
 public class AgendaResource {
 
-    @Autowired
     AgendaService service;
 
-    @GetMapping("{id}")
-    public Mono<Agenda> findById(@PathVariable(value = "id") long id){
+    @Autowired
+    public AgendaResource(AgendaService service) {
+        this.service = service;
+    }
+
+    @GetMapping("{agendaId}")
+    public Mono<Agenda> findById(@PathVariable(value = "agendaId") String id){
         return service.findById(id);
     }
 

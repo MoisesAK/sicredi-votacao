@@ -1,4 +1,4 @@
-package com.prv.votacao.service;
+package com.challenge.voting.service;
 
 import org.junit.Before;
 import org.junit.Test;

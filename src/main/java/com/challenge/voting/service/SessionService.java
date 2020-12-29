@@ -1,23 +1,24 @@
-package com.prv.votacao.service;
+package com.challenge.voting.service;
 
-import com.prv.votacao.models.Session;
-import com.prv.votacao.repository.SessionRepository;
+import com.challenge.voting.repository.SessionRepository;
+import com.challenge.voting.models.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class SessionServiceImpl implements SessionService{
+public class SessionService {
 
     @Autowired
     SessionRepository repository;
 
-    @Override
-    public Mono<Session> findById(long id) {
+    public Mono<Session> findById(String id) {
         return repository.findById(id);
     }
 
-    @Override
+    public Flux<Session> findAll() { return repository.findAll(); }
+
     public Mono<Session> save(Session session) {
         return repository.save(session);
     }
