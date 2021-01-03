@@ -1,13 +1,12 @@
 package com.challenge.voting.resource;
 
 import com.challenge.voting.model.Vote;
-import com.challenge.voting.model.VoteCount;
 import com.challenge.voting.service.SessionService;
 import com.challenge.voting.service.VoteService;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 
 @RestController
 public class VoteResource {
@@ -21,24 +20,28 @@ public class VoteResource {
         this.serviceSession = serviceSession;
     }
 
-    @PostMapping("sessions/{sessionId}/votes")
-    public Mono<Vote> save(@PathVariable("sessionId") String sessionId,@RequestBody Vote vote) {
-        //implementar se a sessao existe
-        //implementar se ja votou
-        //salvar voto
-        vote.setSessionId(sessionId);
-        return service.save(vote);
+    /*
+
+     */
+    @PostMapping("sessoes/{sessaoId}/votos")
+    public Mono<Vote> save(@PathVariable("sessaoId") String sessaoId, @RequestBody Vote vote) {
+
+        return service.save(sessaoId, vote);
     }
 
-    @GetMapping("sessions/{sessionId}/votes")
-    public Mono<VoteCount> countBySessionId (@PathVariable("sessionId") String sessionId) {
-        return service.countBySessionId(sessionId);
+    @GetMapping("lalala/{sessionId}/{cpf}")
+    public Mono<Long> countCpf (@PathVariable("sessionId") String sessionId, @PathVariable("cpf") String cpf ) {
+        //antes ver se a sessão ainda está aberta
+        //se estiver aberta ver se ja votou
+
+        return service.countBySessionIdAndCpf(sessionId, cpf);
     }
 
-    @GetMapping("sessions/{sessionId}/votes/{CPF}")
-    public Vote findById(@PathVariable("sessionId") String sessionId, @PathVariable("CPF") String CPF) {
-        return null;
-    }
+//    @GetMapping("sessions/{sessionId}/votes")
+//    public Mono<VotoContagem> countBySessionId (@PathVariable("sessionId") String sessionId) {
+
+//        return service.countBySessionId(sessionId);
+//    }
 
     @GetMapping("votes")
     public Flux<Vote> findAll() {

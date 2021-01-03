@@ -1,17 +1,29 @@
 package com.challenge.voting.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+import reactor.util.function.Tuple2;
+
 public class Agenda {
 
-    @Id
-    @Indexed
     private String id;
 
     private String title;
+
+    private Long yes;
+
+    private Long no;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getYes() {
+        return yes;
+    }
+
+    public Long getNo() {
+        return no;
+    }
 
     public Agenda() {}
 
@@ -32,4 +44,9 @@ public class Agenda {
         this.title = title;
     }
 
+    public Agenda withVotes(Tuple2<Long,Long> votes) {
+        this.yes = votes.getT1();
+        this.no = votes.getT2();
+        return this;
+    }
 }

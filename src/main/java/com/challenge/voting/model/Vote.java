@@ -1,30 +1,15 @@
 package com.challenge.voting.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 public class Vote {
 
-    @Id
-    @Indexed
     private String id;
 
     private String cpf;
 
-    private String sessionId;
+    private Answer answer;
 
-    private boolean answer;
-
-    public Vote() {}
-
-    public Vote(String id, String cpf, String sessionId, boolean answer) {
-        this.id = id;
-        this.cpf = cpf;
-        this.sessionId = sessionId;
-        this.answer = answer;
-    }
+    private Session session;
 
     public String getId() {
         return id;
@@ -42,19 +27,24 @@ public class Vote {
         this.cpf = cpf;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public boolean isAnswer() {
+    public Answer getAnswer() {
         return answer;
     }
 
-    public void setAnswer(boolean answer) {
+    public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public Vote withSession(Session session) {
+        this.session = session;
+        return this;
     }
 }

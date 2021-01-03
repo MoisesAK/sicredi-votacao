@@ -5,8 +5,6 @@ services:
     container_name: "voting-database"
     ports:
       - 27017:27017
-#    volumes:
-#      - "/tmp/mongo:/data/db"
   api:
     image: voting-api:0.0.1
     ports:

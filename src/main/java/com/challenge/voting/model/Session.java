@@ -1,59 +1,58 @@
 package com.challenge.voting.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document
+
 public class Session {
 
-    @Id
-    @Indexed
     private String id;
 
     private LocalDateTime initialDate;
 
-    private long minutes;
+    private Long minutes;
 
-    private String agendaId;
+    private Agenda agenda;
 
     public Session() {
         this.initialDate = LocalDateTime.now();
-    }
-
-    public Session(String id, long minutes, String agendaId) {
-        this();
-        this.id = id;
-        this.minutes = minutes;
-        this.agendaId = agendaId;
+        this.minutes = 1L;
     }
 
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public LocalDateTime getInitialDate() {
         return initialDate;
     }
 
-    public long getMinutes() {
+    public void setInitialDate(LocalDateTime initialDate) {
+        this.initialDate = initialDate;
+    }
+
+    public Long getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(long minutes) {
-        this.minutes = minutes;
+    public void setMinutes(Long minutes) {
+        this.minutes = minutes == null || minutes <= 0 ? 1 : minutes;
     }
 
-    public String getAgenda() {
-        return agendaId;
+    public Agenda getAgenda() {
+        return agenda;
     }
 
-    public Session withAgendaId(String agendaId) {
-       this.agendaId = agendaId;
-       return this;
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
     }
 
-
+    public Session withAgenda(Agenda agenda) {
+        this.agenda = agenda;
+        return this;
+    }
 }

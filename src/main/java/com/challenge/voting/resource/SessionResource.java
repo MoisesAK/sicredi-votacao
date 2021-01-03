@@ -1,10 +1,7 @@
 package com.challenge.voting.resource;
 
-import com.challenge.voting.model.Agenda;
 import com.challenge.voting.model.Session;
-import com.challenge.voting.service.AgendaService;
 import com.challenge.voting.service.SessionService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,15 +12,13 @@ public class SessionResource {
 
     private final SessionService service;
 
-    private final AgendaService agendaService;
 
-    public SessionResource(SessionService service, AgendaService agendaService) {
+    public SessionResource(SessionService service) {
         this.service = service;
-        this.agendaService = agendaService;
     }
 
-    @GetMapping("sessions/{sessionId}")
-    public Mono<Session> findByid(@PathVariable("sessionId") String id){
+    @GetMapping("sessions/{sessaoId}")
+    public Mono<Session> findByid(@PathVariable("sessaoId") String id) {
         return service.findById(id);
     }
 
@@ -32,13 +27,11 @@ public class SessionResource {
         return service.findAll();
     }
 
-    @PostMapping("agendas/{agendaId}/sessions")
-    public Mono<ResponseEntity<Session>> save(@PathVariable("agendaId") String id, @RequestBody Session session){
-        return agendaService.findById(id)
-                .map(Agenda::getId)
-                .map(session::withAgendaId)
-                .flatMap(service::save)
-                .map(ResponseEntity::ok)
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    /*
+        Conhecendo a pauta (identificador da pauta) é possível abrir uma sessão para a pauta.
+     */
+    @PostMapping("pautas/{pautaId}/sessoes")
+    public Mono<Session> save(@PathVariable("pautaId") String pautaId, @RequestBody Session session) {
+        return service.save(pautaId, session);
     }
 }

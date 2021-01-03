@@ -1,34 +1,64 @@
 package com.challenge.voting.service;
 
+import com.challenge.voting.model.Agenda;
+import com.challenge.voting.model.Session;
 import com.challenge.voting.model.Vote;
-import com.challenge.voting.model.VoteCount;
+import com.challenge.voting.repository.SessionRepository;
 import com.challenge.voting.repository.VoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Service
 public class VoteService {
 
-    @Autowired
-    VoteRepository repository;
+    private final VoteRepository repository;
 
-    public Mono<Vote> save(Vote id) {
-        return repository.save(id);
+    private final SessionRepository sessionRepository;
+
+    public VoteService(VoteRepository repository, SessionRepository sessionRepository) {
+        this.repository = repository;
+        this.sessionRepository = sessionRepository;
     }
+
+    public Mono<Long> countBySessionIdAndCpf(final String sessionId, final String cpf) {
+        return Mono.empty();
+    }
+
+    public Mono<Vote> save(String sessionId, Vote vote) {
+        return sessionRepository.findById(sessionId)
+                .flatMap(s -> this.validateUserHasVoted(vote, s))
+                .flatMap(this::validateExpiredSession)
+                .map(vote::withSession)
+                .flatMap(repository::save)
+                .switchIfEmpty(Mono.error(new RuntimeException("sessao nao existe")));
+    }
+
+    private Mono<Session> validateUserHasVoted(Vote vote, Session s) {
+        return repository.existsBySessionAgendaIdAndCpf(s.getAgenda().getId(), vote.getCpf())
+                .filter(b -> !b)
+                .map(igr -> s)
+                .switchIfEmpty(Mono.error(new RuntimeException("cpf ja votou nessa pauta")));
+    }
+
+    private Mono<Session> validateExpiredSession(Session session) {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isAfter(session.getInitialDate().plus(session.getMinutes(), ChronoUnit.MINUTES))) {
+            return Mono.error(new RuntimeException("sessao expirou"));
+        }
+
+        return Mono.just(session);
+    }
+
 
     public Mono<Vote> findById(String id) {
         return repository.findById(id);
     }
 
-    public Mono<VoteCount> countBySessionId(final String sessionId) {
-        final Mono<Long> yes = repository.countBySessionIdAndAnswer(sessionId, true);
-        final Mono<Long> no = repository.countBySessionIdAndAnswer(sessionId, false);
-
-        return yes.zipWith(no).map(t -> new VoteCount(t.getT1(), t.getT2()));
-    }
 
 
 

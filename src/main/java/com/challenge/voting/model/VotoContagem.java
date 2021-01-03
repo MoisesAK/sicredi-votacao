@@ -1,14 +1,14 @@
 package com.challenge.voting.model;
 
-public class VoteCount {
+public class VotoContagem {
 
     private long yes;
 
     private long no;
 
-    public VoteCount() {}
+    public VotoContagem() {}
 
-    public VoteCount(long yes, long no) {
+    public VotoContagem(long yes, long no) {
         this.yes = yes;
         this.no = no;
     }
