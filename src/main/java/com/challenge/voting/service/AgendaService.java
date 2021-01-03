@@ -2,20 +2,20 @@ package com.challenge.voting.service;
 
 import com.challenge.voting.model.Agenda;
 import com.challenge.voting.model.Answer;
-import com.challenge.voting.repository.ScheduleRepository;
+import com.challenge.voting.repository.AgendaRepository;
 import com.challenge.voting.repository.VoteRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class ScheduleService {
+public class AgendaService {
 
-    private final ScheduleRepository repository;
+    private final AgendaRepository repository;
 
     private final VoteRepository voteRepository;
 
-    public ScheduleService(ScheduleRepository repository, VoteRepository voteRepository) {
+    public AgendaService(AgendaRepository repository, VoteRepository voteRepository) {
         this.repository = repository;
         this.voteRepository = voteRepository;
     }

@@ -1,18 +1,18 @@
 package com.challenge.voting.resource;
 
 import com.challenge.voting.model.Agenda;
-import com.challenge.voting.service.ScheduleService;
+import com.challenge.voting.service.AgendaService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("pautas")
-public class ScheduleResource {
+public class AgendaResource {
 
-    private final ScheduleService service;
+    private final AgendaService service;
 
-    public ScheduleResource(ScheduleService service) {
+    public AgendaResource(AgendaService service) {
         this.service = service;
     }
 

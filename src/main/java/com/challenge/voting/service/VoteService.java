@@ -1,12 +1,10 @@
 package com.challenge.voting.service;
 
-import com.challenge.voting.model.Agenda;
 import com.challenge.voting.model.Session;
 import com.challenge.voting.model.Vote;
 import com.challenge.voting.repository.SessionRepository;
 import com.challenge.voting.repository.VoteRepository;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -52,17 +50,5 @@ public class VoteService {
         }
 
         return Mono.just(session);
-    }
-
-
-    public Mono<Vote> findById(String id) {
-        return repository.findById(id);
-    }
-
-
-
-
-    public Flux<Vote> findAll() {
-        return repository.findAll();
     }
 }
