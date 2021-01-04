@@ -6,6 +6,9 @@ import com.challenge.voting.model.Session;
 import com.challenge.voting.model.Vote;
 import com.challenge.voting.repository.SessionRepository;
 import com.challenge.voting.repository.VoteRepository;
+import com.challenge.voting.resource.VoteResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class VoteService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoteResource.class);
 
     private final VoteRepository repository;
 
@@ -22,10 +26,6 @@ public class VoteService {
     public VoteService(VoteRepository repository, SessionRepository sessionRepository) {
         this.repository = repository;
         this.sessionRepository = sessionRepository;
-    }
-
-    public Mono<Long> countBySessionIdAndCpf(final String sessionId, final String cpf) {
-        return Mono.empty();
     }
 
     public Mono<Vote> save(String sessionId, Vote vote) {
@@ -38,6 +38,7 @@ public class VoteService {
     }
 
     private Mono<Session> validateUserHasVoted(Vote vote, Session s) {
+        LOGGER.debug("session: {}", s);
         return repository.existsBySessionAgendaIdAndCpf(s.getAgenda().getId(), vote.getCpf())
                 .filter(b -> !b)
                 .map(igr -> s)
@@ -46,6 +47,7 @@ public class VoteService {
 
     private Mono<Session> validateExpiredSession(Session session) {
         LocalDateTime now = LocalDateTime.now();
+        LOGGER.debug("voteTime: {}, sessionExpiresIn: {}", now, session.getInitialDate().plus(session.getMinutes(),ChronoUnit.MINUTES));
 
         if (now.isAfter(session.getInitialDate().plus(session.getMinutes(), ChronoUnit.MINUTES))) {
             return Mono.error(new NotFoundException("sessao expirou"));
