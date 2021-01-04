@@ -27,8 +27,7 @@ public class Agenda {
 
     public Agenda() {}
 
-    public Agenda(final String id, final String title) {
-        this.id = id;
+    public Agenda(final String title) {
         this.title = title;
     }
 

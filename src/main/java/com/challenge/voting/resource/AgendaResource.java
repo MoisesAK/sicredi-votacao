@@ -1,13 +1,16 @@
 package com.challenge.voting.resource;
 
+import com.challenge.voting.exception.NotFoundException;
 import com.challenge.voting.model.Agenda;
 import com.challenge.voting.service.AgendaService;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("pautas")
+@RequestMapping("agendas")
 public class AgendaResource {
 
     private final AgendaService service;
@@ -16,9 +19,9 @@ public class AgendaResource {
         this.service = service;
     }
 
-    @GetMapping("{pautaId}")
-    public Mono<Agenda> findById(@PathVariable(value = "pautaId") String id){
-        return service.findById(id);
+    @GetMapping("{agendaId}")
+    public Mono<Agenda> findById(@PathVariable(value = "agendaId") String id){
+        return service.findById(id).switchIfEmpty(Mono.error(new NotFoundException("pauta nao encontrada")));
     }
 
     @GetMapping

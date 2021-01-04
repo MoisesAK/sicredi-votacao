@@ -1,5 +1,7 @@
 package com.challenge.voting.service;
 
+import com.challenge.voting.exception.ConflictException;
+import com.challenge.voting.exception.NotFoundException;
 import com.challenge.voting.model.Session;
 import com.challenge.voting.model.Vote;
 import com.challenge.voting.repository.SessionRepository;
@@ -32,21 +34,21 @@ public class VoteService {
                 .flatMap(this::validateExpiredSession)
                 .map(vote::withSession)
                 .flatMap(repository::save)
-                .switchIfEmpty(Mono.error(new RuntimeException("sessao nao existe")));
+                .switchIfEmpty(Mono.error(new NotFoundException("sessao nao existe")));
     }
 
     private Mono<Session> validateUserHasVoted(Vote vote, Session s) {
         return repository.existsBySessionAgendaIdAndCpf(s.getAgenda().getId(), vote.getCpf())
                 .filter(b -> !b)
                 .map(igr -> s)
-                .switchIfEmpty(Mono.error(new RuntimeException("cpf ja votou nessa pauta")));
+                .switchIfEmpty(Mono.error(new ConflictException("cpf ja votou nessa pauta")));
     }
 
     private Mono<Session> validateExpiredSession(Session session) {
         LocalDateTime now = LocalDateTime.now();
 
         if (now.isAfter(session.getInitialDate().plus(session.getMinutes(), ChronoUnit.MINUTES))) {
-            return Mono.error(new RuntimeException("sessao expirou"));
+            return Mono.error(new NotFoundException("sessao expirou"));
         }
 
         return Mono.just(session);

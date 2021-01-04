@@ -11,12 +11,16 @@ public class Vote {
 
     private Session session;
 
-    public String getId() {
-        return id;
+    public Vote() {}
+
+    public Vote(String cpf, Answer answer, Session session) {
+        this.cpf = cpf;
+        this.answer = answer;
+        this.session = session;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public String getCpf() {

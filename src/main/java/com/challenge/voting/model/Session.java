@@ -14,9 +14,27 @@ public class Session {
 
     private Agenda agenda;
 
+    public Session(Agenda agenda) {
+        this.agenda = agenda;
+        this.initialDate = LocalDateTime.now();
+    }
+
     public Session() {
         this.initialDate = LocalDateTime.now();
-        this.minutes = 1L;
+    }
+
+    public Session(Long minutes, Agenda agenda) {
+        this.minutes = minutes;
+        this.agenda = agenda;
+    }
+
+    public Session withAgenda(Agenda agenda) {
+        this.agenda = agenda;
+        return this;
+    }
+    public Session withExpiredSession(Long minutes){
+        this.minutes = minutes;
+        return this;
     }
 
     public String getId() {
@@ -40,7 +58,7 @@ public class Session {
     }
 
     public void setMinutes(Long minutes) {
-        this.minutes = minutes == null || minutes <= 0 ? 1 : minutes;
+        this.minutes = minutes == null ? 1 : minutes;
     }
 
     public Agenda getAgenda() {
@@ -49,10 +67,5 @@ public class Session {
 
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
-    }
-
-    public Session withAgenda(Agenda agenda) {
-        this.agenda = agenda;
-        return this;
     }
 }

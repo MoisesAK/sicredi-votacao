@@ -2,8 +2,10 @@ package com.challenge.voting.resource;
 
 import com.challenge.voting.model.Session;
 import com.challenge.voting.service.SessionService;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 
@@ -19,8 +21,8 @@ public class SessionResource {
     /*
         Conhecendo a pauta (identificador da pauta) é possível abrir uma sessão para a pauta.
      */
-    @PostMapping("pautas/{pautaId}/sessions")
-    public Mono<Session> save(@PathVariable("pautaId") String pautaId, @RequestBody Session session) {
-        return service.save(pautaId, session);
+    @PostMapping("agendas/{agendaId}/sessions")
+    public Mono<Session> save(@PathVariable("agendaId") String agendaId, @RequestBody Session session) {
+        return service.save(agendaId, session);
     }
 }
